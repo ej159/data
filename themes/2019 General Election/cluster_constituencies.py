@@ -4,6 +4,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import pandas as pd 
 import numpy as np
 from sklearn.decomposition import PCA
+from pyNN.utility import sort_by_column
 
 file = r'vote_counts.csv'
 df = pd.read_csv(file)
@@ -20,11 +21,20 @@ vote_vectors = np.divide(votes, registered_voters[:,None])
 
 colours = ['blue', 'red', 'gold', 'green', 'brown', 'green', 'light blue', 'purple', 'gray']
 winners = np.argmax(vote_vectors, axis=1)
+default_order = ['CON','LAB','LIBDEM','GRN','SNP', 'PC', 'BXP', 'UKIP', 'OTHER']
+
 
 winner_colours=[]
 for winner in winners:
     winner_colours.append(colours[winner])
 
+
+def sort_by_preference():
+    """Get the preference for each constituency"""
+    #TODO abandon this perhaps
+    order = np.argsort(votes.astype(int), axis=1)
+    names = [default_order[preference] for preference in constiuency in order]
+    return names
 
 def PCA_2D():
     pca = PCA(n_components=2)
@@ -62,6 +72,8 @@ def PCA_3D():
     
     plt.show()
 
-PCA_2D()
+#PCA_2D()
 PCA_3D()
+#print(sort_by_preference())
 
+#print(sort_by_preference())
